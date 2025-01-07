@@ -122,8 +122,8 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="#" id="homeLink">Home</a>
-        <a href="#" id="adminLink" style="display: none;">Admin Panel</a>
+        <a href="#">Home</a>
+        <a href="#" id="adminLink">Admin Panel</a>
     </div>
 
     <h1>dcoutside Blog</h1>
@@ -191,19 +191,16 @@
             }
         };
 
-        const adminLogin = () => {
+        adminLink.onclick = () => {
             const username = prompt('Admin Username:');
             const password = prompt('Admin Password:');
             if (username === adminAccount.username && password === adminAccount.password) {
                 alert('Welcome, Admin!');
                 adminPanel.style.display = 'block';
-                adminLink.style.display = 'block';
             } else {
                 alert('Invalid Admin Credentials');
             }
         };
-
-        adminLink.onclick = adminLogin;
 
         document.getElementById('resetPostsButton').onclick = () => {
             if (confirm('Are you sure you want to reset all posts?')) {
