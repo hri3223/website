@@ -157,6 +157,7 @@
         <input type="text" id="authUsername" placeholder="Username" required>
         <input type="password" id="authPassword" placeholder="Password" required>
         <button id="authButton">Login</button>
+        <button id="signupButton" style="display: none;">Sign Up</button>
         <p id="authSwitch">Don't have an account? <span id="switchToSignup" style="color: #ff007f; cursor: pointer;">Sign up</span></p>
     </div>
 
@@ -231,51 +232,56 @@
 
         const switchToLogin = () => {
             authContainer.querySelector('#authTitle').textContent = 'Login';
-            authButton.textContent = 'Login';
+            document.getElementById('authButton').style.display = 'block'; // Show login button
+            document.getElementById('signupButton').style.display = 'none'; // Hide sign-up button
             document.getElementById('authSwitch').innerHTML = `Don't have an account? <span id="switchToSignup" style="color: #ff007f; cursor: pointer;">Sign up</span>`;
             document.getElementById('switchToSignup').onclick = switchToSignupMode;
         };
 
         const switchToSignupMode = () => {
             authContainer.querySelector('#authTitle').textContent = 'Sign Up';
-            authButton.textContent = 'Sign Up';
+            document.getElementById('authButton').style.display = 'none'; // Hide login button
+            document.getElementById('signupButton').style.display = 'block'; // Show sign-up button
             document.getElementById('authSwitch').innerHTML = `Already have an account? <span id="switchToLogin" style="color: #ff007f; cursor: pointer;">Login</span>`;
             document.getElementById('switchToLogin').onclick = switchToLogin;
         };
 
-        authButton.onclick = () => {
+        document.getElementById('authButton').onclick = () => {
             const username = document.getElementById('authUsername').value;
             const password = document.getElementById('authPassword').value;
 
-            if (authButton.textContent === 'Login') {
-                if (username === adminAccount.username && password === adminAccount.password) {
-                    loggedInUser = adminAccount;
-                    alert('Logged in as Admin');
-                    adminPanel.style.display = 'block';
-                    adminLink.style.display = 'block';
-                    renderUsers();
-                } else {
-                    const user = users.find(u => u.username === username && u.password === password);
-                    if (user) {
-                        loggedInUser = user;
-                        alert(`Welcome back, ${username}`);
-                    } else {
-                        alert('Invalid credentials');
-                        return;
-                    }
-                }
+            if (username === adminAccount.username && password === adminAccount.password) {
+                loggedInUser = adminAccount;
+                alert('Logged in as Admin');
+                adminPanel.style.display = 'block';
+                adminLink.style.display = 'block';
+                renderUsers();
             } else {
-                if (users.find(u => u.username === username)) {
-                    alert('Username already exists');
-                    return;
+                const user = users.find(u => u.username === username && u.password === password);
+                if (user) {
+                    loggedInUser = user;
+                    alert(`Welcome back, ${username}`);
                 } else {
-                    users.push({ username, password });
-                    alert('Sign-up successful. Please log in.');
-                    switchToLogin();
+                    alert('Invalid credentials');
+                    return;
                 }
             }
             authContainer.style.display = 'none';
             postFormContainer.style.display = 'block';
+        };
+
+        document.getElementById('signupButton').onclick = () => {
+            const username = document.getElementById('authUsername').value;
+            const password = document.getElementById('authPassword').value;
+
+            if (users.find(u => u.username === username)) {
+                alert('Username already exists');
+                return;
+            } else {
+                users.push({ username, password });
+                alert('Sign-up successful. Please log in.');
+                switchToLogin();
+            }
         };
 
         document.getElementById('postButton').onclick = () => {
