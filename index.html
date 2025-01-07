@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyberpunk Blog</title>
+    <title>dcoutside Blog</title>
     <style>
+        /* Basic styling */
         body {
             font-family: 'Orbitron', sans-serif;
             background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
@@ -69,7 +70,7 @@
             box-shadow: 0 0 20px #ff007f;
         }
 
-        .auth-container, .form-container, .admin-panel {
+        .form-container, .admin-panel {
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
@@ -100,25 +101,6 @@
             background: darkred;
         }
 
-        .comment-section {
-            margin-top: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            border-radius: 5px;
-            text-align: left;
-        }
-
-        .comment-section input, .comment-section button {
-            width: 90%;
-        }
-
-        .comment {
-            margin: 5px 0;
-            padding: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-        }
-
         footer {
             margin-top: 50px;
             padding: 10px;
@@ -141,23 +123,14 @@
 <body>
     <div class="navbar">
         <a href="#" id="homeLink">Home</a>
-        <a href="#" id="loginLink">Login</a>
         <a href="#" id="adminLink" style="display: none;">Admin Panel</a>
     </div>
 
-    <h1>Cyberpunk Blog</h1>
+    <h1>dcoutside Blog</h1>
 
-    <div class="auth-container" id="authContainer">
-        <h2 id="authTitle">Login</h2>
-        <input type="text" id="authUsername" placeholder="Username" required>
-        <input type="password" id="authPassword" placeholder="Password" required>
-        <button id="authButton">Login</button>
-        <button id="signupButton" style="display: none;">Sign Up</button>
-        <p id="authSwitch">Don't have an account? <span id="switchToSignup" style="color: #ff007f; cursor: pointer;">Sign up</span></p>
-    </div>
-
-    <div class="form-container" id="postFormContainer" style="display: none;">
+    <div class="form-container" id="postFormContainer">
         <h2>Create a Post</h2>
+        <input type="text" id="author" placeholder="Your Name (Optional)">
         <input type="text" id="title" placeholder="Post Title" required>
         <textarea id="content" placeholder="Post Content" rows="4" required></textarea>
         <button id="postButton">Post</button>
@@ -167,15 +140,80 @@
 
     <div class="admin-panel" id="adminPanel" style="display: none;">
         <h2>Admin Control Panel</h2>
-        <h3>Users</h3>
-        <ul id="userList"></ul>
         <button id="resetPostsButton">Reset All Posts</button>
     </div>
 
     <footer>
-        <p>&copy; 2025 Cyberpunk Blog | Created by <strong>Luke Yoon</strong> | Contact: <a href="mailto:lukeyoon0514@gmail.com">lukeyoon0514@gmail.com</a></p>
+        <p>&copy; 2025 dcoutside Blog | Created by <strong>Luke Yoon</strong> | Contact: <a href="mailto:lukeyoon0514@gmail.com">lukeyoon0514@gmail.com</a></p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        const adminAccount = { username: "genova", password: "12345678" };
+        const posts = JSON.parse(localStorage.getItem('posts')) || [];
+        const blogContainer = document.getElementById('blogContainer');
+        const adminPanel = document.getElementById('adminPanel');
+        const adminLink = document.getElementById('adminLink');
+
+        const renderPosts = () => {
+            blogContainer.innerHTML = '';
+            posts.forEach((post, index) => {
+                const postElement = document.createElement('div');
+                postElement.className = 'blog-post';
+                postElement.innerHTML = `<h3>${post.title}</h3><p>${post.content}</p><p><strong>Posted by: ${post.author || "Anonymous"}</strong></p>`;
+                
+                if (adminPanel.style.display === 'block') {
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'delete-button';
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.onclick = () => {
+                        posts.splice(index, 1);
+                        localStorage.setItem('posts', JSON.stringify(posts));
+                        renderPosts();
+                    };
+                    postElement.appendChild(deleteButton);
+                }
+
+                blogContainer.appendChild(postElement);
+            });
+        };
+
+        document.getElementById('postButton').onclick = () => {
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            const author = document.getElementById('author').value;
+            if (title && content) {
+                posts.push({ title, content, author });
+                localStorage.setItem('posts', JSON.stringify(posts));
+                renderPosts();
+                document.getElementById('title').value = '';
+                document.getElementById('content').value = '';
+                document.getElementById('author').value = '';
+            }
+        };
+
+        const adminLogin = () => {
+            const username = prompt('Admin Username:');
+            const password = prompt('Admin Password:');
+            if (username === adminAccount.username && password === adminAccount.password) {
+                alert('Welcome, Admin!');
+                adminPanel.style.display = 'block';
+                adminLink.style.display = 'block';
+            } else {
+                alert('Invalid Admin Credentials');
+            }
+        };
+
+        adminLink.onclick = adminLogin;
+
+        document.getElementById('resetPostsButton').onclick = () => {
+            if (confirm('Are you sure you want to reset all posts?')) {
+                posts.length = 0;
+                localStorage.setItem('posts', JSON.stringify(posts));
+                renderPosts();
+            }
+        };
+
+        renderPosts();
+    </script>
 </body>
 </html>
