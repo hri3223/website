@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redshark Blog</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&display=swap');
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: radial-gradient(circle at top left, #1f2b3e, #ff007f, #ffff00); /* Neon gradient */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 5em;
+            text-shadow: 0 0 15px #ff007f, 0 0 30px #ff0066, 0 0 60px #ffff00; /* Pink, Purple, Yellow glow */
+            margin-top: 20px;
+            animation: glitch 1.5s infinite alternate-reverse;
+            color: #ff0; /* Bright yellow to give that anime feel */
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 0 0 20px #ff007f, 0 0 40px #ff0066, 0 0 60px #ffff00;
+                transform: translateX(0);
+            }
+            25% {
+                text-shadow: 5px 0 15px #ff007f, -5px 0 30px #ff0066, 10px 0 20px #ffff00;
+                transform: translateX(-5px);
+            }
+            50% {
+                text-shadow: -5px 0 15px #ff007f, 5px 0 25px #ff0066, 10px 0 30px #ffff00;
+                transform: translateX(5px);
+            }
+            75% {
+                text-shadow: 10px 0 15px #ff007f, -10px 0 30px #ff0066, 5px 0 20px #ffff00;
+                transform: translateX(-5px);
+            }
+            100% {
+                text-shadow: 0 0 20px #ff007f, 0 0 40px #ff0066, 0 0 60px #ffff00;
+                transform: translateX(0);
+            }
+        }
+
+        p {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.5em;
+            margin: 20px 0;
+            text-shadow: 0 0 5px #ff007f, 0 0 10px #ffff00, 0 0 15px #ff0066;
+            letter-spacing: 0.05em;
+            color: #fff;
+        }
+
+        .form-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 0 20px #ff007f;
+            position: relative;
+        }
+
+        .form-container input, .form-container textarea, .form-container button {
+            font-family: 'Orbitron', sans-serif;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ff007f;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        .form-container input:focus, .form-container textarea:focus {
+            outline: none;
+            box-shadow: 0 0 20px #ffff00;
+        }
+
+        .form-container button {
+            background: #ff007f;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+        }
+
+        .form-container button:hover {
+            background: #ffff00; /* Bright yellow hover */
+            color: #000;
+        }
+
+        .blog-container {
+            width: 90%;
+            max-width: 800px;
+            overflow-y: auto;
+            max-height: 50vh;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .blog-post {
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #ff007f;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .blog-post:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px #ff007f;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff007f;
+            border: none;
+            padding: 5px 10px;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 0.9em;
+            box-shadow: 0 0 10px #ff007f;
+            transition: background-color 0.3s;
+        }
+
+        .delete-button:hover {
+            background: #ffff00;
+            color: #000;
+        }
+
+        footer {
+            margin-top: auto;
+            font-size: 1em;
+            color: #aaa;
+            text-align: center;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            width: 100%;
+        }
+
+        footer a {
+            color: #ff007f;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .search-container {
+            margin: 20px 0;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .search-container input {
+            font-family: 'Orbitron', sans-serif;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ff007f;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        .navbar {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            box-shadow: 0 0 15px #ff007f;
+        }
+
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #ff007f;
+            font-size: 1.2em;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #ffff00;
+        }
+
+        .stats {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #ff007f;
+            margin-top: 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .stats span {
+            font-weight: bold;
+            color: #ffff00;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('#blogForm');
+            const blogContainer = document.querySelector('.blog-container');
+            const statsContainer = document.querySelector('.stats span');
+            const searchInput = document.querySelector('#search');
+
+            let postCount = 0;
+
+            function updateStats() {
+                statsContainer.textContent = postCount;
+            }
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const title = document.querySelector('#title').value;
+                const content = document.querySelector('#content').value;
+
+                if (title && content) {
+                    const post = document.createElement('div');
+                    post.className = 'blog-post';
+                    post.innerHTML = `<h3>${title}</h3><p>${content}</p>`;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'delete-button';
+                    deleteButton.textContent = 'Delete';
+
+                    deleteButton.addEventListener('click', () => {
+                        post.remove();
+                        postCount--;
+                        updateStats();
+                    });
+
+                    post.appendChild(deleteButton);
+                    blogContainer.prepend(post);
+
+                    postCount++;
+                    updateStats();
+                    form.reset();
+                }
+            });
+
+            searchInput.addEventListener('input', () => {
+                const searchText = searchInput.value.toLowerCase();
+                const posts = document.querySelectorAll('.blog-post');
+                posts.forEach(post => {
+                    const title = post.querySelector('h3').textContent.toLowerCase();
+                    const content = post.querySelector('p').textContent.toLowerCase();
+                    if (title.includes(searchText) || content.includes(searchText)) {
+                        post.style.display = 'block';
+                    } else {
+                        post.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">Blog</a>
+        <a href="#">Contact</a>
+    </div>
+
+    <h1>Redshark Blog</h1>
+
+    <div class="stats">
+        Total Posts: <span>0</span>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="search" placeholder="Search Posts...">
+    </div>
+
+    <div class="form-container">
+        <form id="blogForm">
+            <input type="text" id="title" placeholder="Post Title" required>
+            <textarea id="content" placeholder="Post Content" rows="5" required></textarea>
+            <button type="submit">Post</button>
+        </form>
+    </div>
+
+    <div class="blog-container">
+        <!-- Blog posts will appear here -->
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Redshark Blog | <a href="#">Privacy Policy</a></p>
+    </footer>
+</body>
+</html>
