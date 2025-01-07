@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyberpunk Blog</title>
     <style>
-        /* General Styling */
         body {
             font-family: 'Orbitron', sans-serif;
             background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
@@ -20,7 +19,6 @@
             text-shadow: 0 0 10px #00ffe0, 0 0 20px #00ffe0;
         }
 
-        /* Navbar */
         .navbar {
             background: rgba(0, 0, 0, 0.8);
             padding: 15px;
@@ -42,7 +40,6 @@
             color: #ff007f;
         }
 
-        /* Forms */
         input, textarea, button {
             display: block;
             margin: 10px auto;
@@ -103,25 +100,23 @@
             background: darkred;
         }
 
-        .admin-panel ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .admin-panel li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .comment-section {
+            margin-top: 20px;
             background: rgba(0, 0, 0, 0.7);
             padding: 10px;
-            margin: 10px 0;
             border-radius: 5px;
-            box-shadow: 0 0 15px #ff007f;
+            text-align: left;
         }
 
-        .admin-panel li span {
-            flex-grow: 1;
-            text-align: left;
+        .comment-section input, .comment-section button {
+            width: 90%;
+        }
+
+        .comment {
+            margin: 5px 0;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
         }
 
         footer {
@@ -181,130 +176,6 @@
         <p>&copy; 2025 Cyberpunk Blog | Created by <strong>Luke Yoon</strong> | Contact: <a href="mailto:lukeyoon0514@gmail.com">lukeyoon0514@gmail.com</a></p>
     </footer>
 
-    <script>
-        const adminAccount = { username: "genova", password: "12345678" };
-        const users = [];
-        const posts = JSON.parse(localStorage.getItem('posts')) || [];
-        const authContainer = document.getElementById('authContainer');
-        const postFormContainer = document.getElementById('postFormContainer');
-        const blogContainer = document.getElementById('blogContainer');
-        const adminPanel = document.getElementById('adminPanel');
-        const userList = document.getElementById('userList');
-        const adminLink = document.getElementById('adminLink');
-        let loggedInUser = null;
-
-        const renderPosts = () => {
-            blogContainer.innerHTML = '';
-            posts.forEach((post, index) => {
-                const postElement = document.createElement('div');
-                postElement.className = 'blog-post';
-                postElement.innerHTML = `<h3>${post.title}</h3><p>${post.content}</p>`;
-                if (loggedInUser?.username === adminAccount.username) {
-                    const deleteButton = document.createElement('button');
-                    deleteButton.className = 'delete-button';
-                    deleteButton.textContent = 'Delete';
-                    deleteButton.onclick = () => {
-                        posts.splice(index, 1);
-                        localStorage.setItem('posts', JSON.stringify(posts));
-                        renderPosts();
-                    };
-                    postElement.appendChild(deleteButton);
-                }
-                blogContainer.appendChild(postElement);
-            });
-        };
-
-        const renderUsers = () => {
-            userList.innerHTML = '';
-            users.forEach((user, index) => {
-                const userElement = document.createElement('li');
-                userElement.innerHTML = `<span>${user.username} (Password: ${user.password})</span>`;
-                const deleteUserButton = document.createElement('button');
-                deleteUserButton.textContent = 'Delete';
-                deleteUserButton.onclick = () => {
-                    users.splice(index, 1);
-                    renderUsers();
-                };
-                userElement.appendChild(deleteUserButton);
-                userList.appendChild(userElement);
-            });
-        };
-
-        const switchToLogin = () => {
-            authContainer.querySelector('#authTitle').textContent = 'Login';
-            document.getElementById('authButton').style.display = 'block'; // Show login button
-            document.getElementById('signupButton').style.display = 'none'; // Hide sign-up button
-            document.getElementById('authSwitch').innerHTML = `Don't have an account? <span id="switchToSignup" style="color: #ff007f; cursor: pointer;">Sign up</span>`;
-            document.getElementById('switchToSignup').onclick = switchToSignupMode;
-        };
-
-        const switchToSignupMode = () => {
-            authContainer.querySelector('#authTitle').textContent = 'Sign Up';
-            document.getElementById('authButton').style.display = 'none'; // Hide login button
-            document.getElementById('signupButton').style.display = 'block'; // Show sign-up button
-            document.getElementById('authSwitch').innerHTML = `Already have an account? <span id="switchToLogin" style="color: #ff007f; cursor: pointer;">Login</span>`;
-            document.getElementById('switchToLogin').onclick = switchToLogin;
-        };
-
-        document.getElementById('authButton').onclick = () => {
-            const username = document.getElementById('authUsername').value;
-            const password = document.getElementById('authPassword').value;
-
-            if (username === adminAccount.username && password === adminAccount.password) {
-                loggedInUser = adminAccount;
-                alert('Logged in as Admin');
-                adminPanel.style.display = 'block';
-                adminLink.style.display = 'block';
-                renderUsers();
-            } else {
-                const user = users.find(u => u.username === username && u.password === password);
-                if (user) {
-                    loggedInUser = user;
-                    alert(`Welcome back, ${username}`);
-                } else {
-                    alert('Invalid credentials');
-                    return;
-                }
-            }
-            authContainer.style.display = 'none';
-            postFormContainer.style.display = 'block';
-        };
-
-        document.getElementById('signupButton').onclick = () => {
-            const username = document.getElementById('authUsername').value;
-            const password = document.getElementById('authPassword').value;
-
-            if (users.find(u => u.username === username)) {
-                alert('Username already exists');
-                return;
-            } else {
-                users.push({ username, password });
-                alert('Sign-up successful. Please log in.');
-                switchToLogin();
-            }
-        };
-
-        document.getElementById('postButton').onclick = () => {
-            const title = document.getElementById('title').value;
-            const content = document.getElementById('content').value;
-            if (title && content) {
-                posts.push({ title, content });
-                localStorage.setItem('posts', JSON.stringify(posts));
-                renderPosts();
-                document.getElementById('title').value = '';
-                document.getElementById('content').value = '';
-            }
-        };
-
-        document.getElementById('resetPostsButton').onclick = () => {
-            if (confirm('Are you sure you want to reset all posts?')) {
-                posts.length = 0;
-                localStorage.setItem('posts', JSON.stringify(posts));
-                renderPosts();
-            }
-        };
-
-        renderPosts();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
