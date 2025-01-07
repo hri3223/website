@@ -3,258 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redshark Blog</title>
+    <title>Cyberpunk Blog</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&display=swap');
+        /* Navbar Styling */
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1.2em;
+        }
+
+        .navbar a:hover {
+            color: #ff007f;
+        }
 
         body {
-            font-family: 'Orbitron', sans-serif;
-            background: linear-gradient(to right, #001f3f, #011627, #004080);
-            color: #00eaff;
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: #fff;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+            text-align: center;
         }
 
         h1 {
-            font-size: 5em;
-            text-shadow: 0 0 15px #00eaff, 0 0 30px #00ccff, 0 0 60px #00aaff;
-            margin-top: 20px;
-            animation: glitch 1.5s infinite alternate-reverse;
-            color: #00ffff;
+            margin: 20px;
+            color: #ff007f;
         }
 
-        @keyframes glitch {
-            0% {
-                text-shadow: 0 0 20px #00eaff, 0 0 40px #00ccff, 0 0 60px #00aaff;
-                transform: translateX(0);
-            }
-            25% {
-                text-shadow: 5px 0 15px #00eaff, -5px 0 30px #00ccff, 10px 0 20px #00aaff;
-                transform: translateX(-5px);
-            }
-            50% {
-                text-shadow: -5px 0 15px #00eaff, 5px 0 25px #00ccff, 10px 0 30px #00aaff;
-                transform: translateX(5px);
-            }
-            75% {
-                text-shadow: 10px 0 15px #00eaff, -10px 0 30px #00ccff, 5px 0 20px #00aaff;
-                transform: translateX(-5px);
-            }
-            100% {
-                text-shadow: 0 0 20px #00eaff, 0 0 40px #00ccff, 0 0 60px #00aaff;
-                transform: translateX(0);
-            }
-        }
-
-        p {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 1.5em;
-            margin: 20px 0;
-            text-shadow: 0 0 5px #00eaff, 0 0 10px #00ffff, 0 0 15px #00aaff;
-            letter-spacing: 0.05em;
-        }
-
-        .form-container {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            width: 90%;
-            max-width: 800px;
-            box-shadow: 0 0 20px #00eaff;
-        }
-
-        .form-container input, .form-container textarea, .form-container button {
-            font-family: 'Orbitron', sans-serif;
-            width: 100%;
-            margin: 10px 0;
+        input, textarea, button {
+            display: block;
+            margin: 10px auto;
             padding: 10px;
-            border: none;
             border-radius: 5px;
-            box-shadow: 0 0 10px #00eaff;
-            background: rgba(0, 0, 0, 0.6);
-            color: #00eaff;
-            font-size: 1.2em;
+            border: none;
         }
 
-        .form-container input:focus, .form-container textarea:focus {
-            outline: none;
-            box-shadow: 0 0 20px #00ffff;
-        }
-
-        .form-container button {
-            background: #00eaff;
-            color: #000;
-            cursor: pointer;
-            font-size: 1.2em;
-            transition: background-color 0.3s;
-        }
-
-        .form-container button:hover {
-            background: #00ffff;
-            color: #000;
-        }
-
-        .blog-container {
+        input, textarea {
             width: 90%;
-            max-width: 800px;
-            overflow-y: auto;
-            max-height: 50vh;
-            margin-top: 20px;
+            max-width: 400px;
+        }
+
+        button {
+            background: #ff007f;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ffff00;
+        }
+
+        .auth-container, .form-container, .admin-panel {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 15px #ff007f;
         }
 
         .blog-post {
             background: rgba(0, 0, 0, 0.7);
-            color: #00eaff;
+            margin: 20px;
             padding: 15px;
-            margin: 10px 0;
             border-radius: 10px;
-            box-shadow: 0 0 15px #00eaff;
-            position: relative;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .blog-post:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px #00eaff;
+            text-align: left;
         }
 
         .delete-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #00eaff;
-            border: none;
+            background: red;
+            color: white;
             padding: 5px 10px;
-            color: #000;
-            cursor: pointer;
             border-radius: 5px;
-            font-size: 0.9em;
+            border: none;
+            cursor: pointer;
         }
 
         .delete-button:hover {
-            background: #00ffff;
+            background: darkred;
         }
 
-        footer {
-            margin-top: auto;
-            font-size: 1em;
-            color: #aaa;
-            text-align: center;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            width: 100%;
+        .admin-panel ul {
+            list-style: none;
+            padding: 0;
         }
 
-        footer a {
-            color: #00eaff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        .navbar {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.9);
+        .admin-panel li {
             display: flex;
-            justify-content: center;
-            padding: 10px 0;
-            box-shadow: 0 0 15px #00eaff;
-        }
-
-        .navbar a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #00eaff;
-            font-size: 1.2em;
-            transition: color 0.3s;
-        }
-
-        .navbar a:hover {
-            color: #00ffff;
-        }
-
-        .search-container {
-            margin: 20px 0;
-            width: 90%;
-            max-width: 800px;
-        }
-
-        .search-container input {
-            font-family: 'Orbitron', sans-serif;
-            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
             padding: 10px;
-            margin-bottom: 10px;
-            border: none;
+            margin: 10px 0;
             border-radius: 5px;
-            box-shadow: 0 0 10px #00eaff;
-            background: rgba(0, 0, 0, 0.6);
-            color: #00eaff;
-            font-size: 1.2em;
         }
 
-        .stats {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px #00eaff;
-            margin-top: 20px;
-            color: #00eaff;
-            text-align: center;
-        }
-
-        .stats span {
-            font-weight: bold;
-            color: #00ffff;
+        .admin-panel li span {
+            flex-grow: 1;
+            text-align: left;
         }
     </style>
 </head>
 <body>
     <div class="navbar">
-        <a href="#">Home</a>
-        <a href="#">Blog</a>
-        <a href="#">Contact</a>
-        <a href="#">Login</a>
+        <a href="#" id="homeLink">Home</a>
+        <a href="#" id="loginLink">Login</a>
+        <a href="#" id="adminLink" style="display: none;">Admin Panel</a>
     </div>
 
-    <h1>Redshark Blog</h1>
+    <h1>Cyberpunk Blog</h1>
 
-    <div class="stats">
-        Total Posts: <span>0</span>
+    <div class="auth-container" id="authContainer">
+        <h2 id="authTitle">Login</h2>
+        <input type="text" id="authUsername" placeholder="Username" required>
+        <input type="password" id="authPassword" placeholder="Password" required>
+        <button id="authButton">Login</button>
+        <p id="authSwitch">Don't have an account? <span id="switchToSignup">Sign up</span></p>
     </div>
 
-    <div class="search-container">
-        <input type="text" id="search" placeholder="Search Posts...">
+    <div class="form-container" id="postFormContainer" style="display: none;">
+        <h2>Create a Post</h2>
+        <input type="text" id="title" placeholder="Post Title" required>
+        <textarea id="content" placeholder="Post Content" rows="4" required></textarea>
+        <button id="postButton">Post</button>
     </div>
 
-    <div class="form-container">
-        <form id="blogForm">
-            <input type="text" id="title" placeholder="Post Title" required>
-            <textarea id="content" placeholder="Post Content" rows="5" required></textarea>
-            <button type="submit">Post</button>
-        </form>
-    </div>
+    <div class="blog-container" id="blogContainer"></div>
 
-    <div class="blog-container">
-        <!-- Blog posts will appear here -->
+    <div class="admin-panel" id="adminPanel" style="display: none;">
+        <h2>Admin Control Panel</h2>
+        <h3>Users</h3>
+        <ul id="userList"></ul>
+        <button id="resetPostsButton">Reset All Posts</button>
     </div>
 
     <footer>
-        <p>&copy; 2025 Redshark Blog | Designed by Luke Yoon (<a href="mailto:lukeyoon0514@gmail.com">lukeyoon0514@gmail.com</a>)</p>
+        <p>&copy; 2025 Cyberpunk Blog | Contact: <a href="mailto:lukeyoon0514@gmail.com">lukeyoon0514@gmail.com</a></p>
     </footer>
 
-    <!-- Scripts for features will go here -->
     <script>
-        // Placeholder for login and database connection.
+        const adminAccount = { username: "genova", password: "12345678" };
+        const users = [];
+        const posts = JSON.parse(localStorage.getItem('posts')) || [];
+        const authContainer = document.getElementById('authContainer');
+        const postFormContainer = document.getElementById('postFormContainer');
+        const blogContainer = document.getElementById('blogContainer');
+        const adminPanel = document.getElementById('adminPanel');
+        const userList = document.getElementById('userList');
+        const adminLink = document.getElementById('adminLink');
+        let loggedInUser = null;
+
+        const renderPosts = () => {
+            blogContainer.innerHTML = '';
+            posts.forEach((post, index) => {
+                const postElement = document.createElement('div');
+                postElement.className = 'blog-post';
+                postElement.innerHTML = `<h3>${post.title}</h3><p>${post.content}</p>`;
+                if (loggedInUser?.username === adminAccount.username) {
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'delete-button';
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.onclick = () => {
+                        posts.splice(index, 1);
+                        localStorage.setItem('posts', JSON.stringify(posts));
+                        renderPosts();
+                    };
+                    postElement.appendChild(deleteButton);
+                }
+                blogContainer.appendChild(postElement);
+            });
+        };
+
+        const renderUsers = () => {
+            userList.innerHTML = '';
+            users.forEach((user, index) => {
+                const userElement = document.createElement('li');
+                userElement.innerHTML = `<span>${user.username} (Password: ${user.password})</span>`;
+                const deleteUserButton = document.createElement('button');
+                deleteUserButton.textContent = 'Delete';
+                deleteUserButton.onclick = () => {
+                    users.splice(index, 1);
+                    renderUsers();
+                };
+                userElement.appendChild(deleteUserButton);
+                userList.appendChild(userElement);
+            });
+        };
+
+        const switchToLogin = () => {
+            authContainer.querySelector('#authTitle').textContent = 'Login';
+            authButton.textContent = 'Login';
+            document.getElementById('authSwitch').innerHTML = `Don't have an account? <span id="switchToSignup">Sign up</span>`;
+            document.getElementById('switchToSignup').onclick = switchToSignupMode;
+        };
+
+        const switchToSignupMode = () => {
+            authContainer.querySelector('#authTitle').textContent = 'Sign Up';
+            authButton.textContent = 'Sign Up';
+            document.getElementById('authSwitch').innerHTML = `Already have an account? <span id="switchToLogin">Login</span>`;
+            document.getElementById('switchToLogin').onclick = switchToLogin;
+        };
+
+        authButton.onclick = () => {
+            const username = document.getElementById('authUsername').value;
+            const password = document.getElementById('authPassword').value;
+
+            if (authButton.textContent === 'Login') {
+                if (username === adminAccount.username && password === adminAccount.password) {
+                    loggedInUser = adminAccount;
+                    alert('Logged in as Admin');
+                    adminPanel.style.display = 'block';
+                    adminLink.style.display = 'block';
+                    renderUsers();
+                } else {
+                    const user = users.find(u => u.username === username && u.password === password);
+                    if (user) {
+                        loggedInUser = user;
+                        alert(`Welcome back, ${username}`);
+                    } else {
+                        alert('Invalid credentials');
+                    }
+                }
+            } else {
+                if (users.find(u => u.username === username)) {
+                    alert('Username already exists');
+                } else {
+                    users.push({ username, password });
+                    alert('Sign-up successful. Please log in.');
+                    switchToLogin();
+                }
+            }
+            authContainer.style.display = 'none';
+            postFormContainer.style.display = 'block';
+        };
+
+        document.getElementById('postButton').onclick = () => {
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            if (title && content) {
+                posts.push({ title, content });
+                localStorage.setItem('posts', JSON.stringify(posts));
+                renderPosts();
+                document.getElementById('title').value = '';
+                document.getElementById('content').value = '';
+            }
+        };
+
+        document.getElementById('resetPostsButton').onclick = () => {
+            if (confirm('Are you sure you want to reset all posts?')) {
+                posts.length = 0;
+                localStorage.setItem('posts', JSON.stringify(posts));
+                renderPosts();
+            }
+        };
+
+        renderPosts();
     </script>
 </body>
 </html>
