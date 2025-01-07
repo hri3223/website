@@ -5,78 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyberpunk Blog</title>
     <style>
-        /* Navbar Styling */
+        /* General Styling */
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: #00ffe0;
+            text-shadow: 0 0 10px #00ffe0, 0 0 20px #00ffe0;
+        }
+
+        /* Navbar */
         .navbar {
             background: rgba(0, 0, 0, 0.8);
-            padding: 10px;
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 0 15px #00ffe0;
         }
 
         .navbar a {
-            color: #fff;
+            color: #00ffe0;
             text-decoration: none;
-            margin: 0 10px;
             font-size: 1.2em;
+            margin: 0 15px;
+            transition: color 0.3s;
         }
 
         .navbar a:hover {
             color: #ff007f;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #121212;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-
-        h1 {
-            margin: 20px;
-            color: #ff007f;
-        }
-
+        /* Forms */
         input, textarea, button {
             display: block;
             margin: 10px auto;
             padding: 10px;
             border-radius: 5px;
             border: none;
+            font-size: 1em;
         }
 
         input, textarea {
             width: 90%;
             max-width: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
         }
 
         button {
-            background: #ff007f;
+            background: linear-gradient(90deg, #ff007f, #00ffe0);
             color: #fff;
             cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         button:hover {
-            background: #ffff00;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #ff007f;
         }
 
         .auth-container, .form-container, .admin-panel {
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             border-radius: 10px;
-            box-shadow: 0 0 15px #ff007f;
+            box-shadow: 0 0 20px #00ffe0;
         }
 
         .blog-post {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             margin: 20px;
             padding: 15px;
             border-radius: 10px;
             text-align: left;
+            box-shadow: 0 0 15px #ff007f;
         }
 
         .delete-button {
@@ -105,11 +116,30 @@
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
+            box-shadow: 0 0 15px #ff007f;
         }
 
         .admin-panel li span {
             flex-grow: 1;
             text-align: left;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #e0e0e0;
+            font-size: 0.9em;
+            box-shadow: 0 0 15px #00ffe0;
+        }
+
+        footer a {
+            color: #00ffe0;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ff007f;
         }
     </style>
 </head>
@@ -127,7 +157,7 @@
         <input type="text" id="authUsername" placeholder="Username" required>
         <input type="password" id="authPassword" placeholder="Password" required>
         <button id="authButton">Login</button>
-        <p id="authSwitch">Don't have an account? <span id="switchToSignup">Sign up</span></p>
+        <p id="authSwitch">Don't have an account? <span id="switchToSignup" style="color: #ff007f; cursor: pointer;">Sign up</span></p>
     </div>
 
     <div class="form-container" id="postFormContainer" style="display: none;">
@@ -147,7 +177,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 Cyberpunk Blog | Contact: <a href="mailto:lukeyoon0514@gmail.com">lukeyoon0514@gmail.com</a></p>
+        <p>&copy; 2025 Cyberpunk Blog | Created by <strong>Luke Yoon</strong> | Contact: <a href="mailto:lukeyoon0514@gmail.com">lukeyoon0514@gmail.com</a></p>
     </footer>
 
     <script>
@@ -202,14 +232,14 @@
         const switchToLogin = () => {
             authContainer.querySelector('#authTitle').textContent = 'Login';
             authButton.textContent = 'Login';
-            document.getElementById('authSwitch').innerHTML = `Don't have an account? <span id="switchToSignup">Sign up</span>`;
+            document.getElementById('authSwitch').innerHTML = `Don't have an account? <span id="switchToSignup" style="color: #ff007f; cursor: pointer;">Sign up</span>`;
             document.getElementById('switchToSignup').onclick = switchToSignupMode;
         };
 
         const switchToSignupMode = () => {
             authContainer.querySelector('#authTitle').textContent = 'Sign Up';
             authButton.textContent = 'Sign Up';
-            document.getElementById('authSwitch').innerHTML = `Already have an account? <span id="switchToLogin">Login</span>`;
+            document.getElementById('authSwitch').innerHTML = `Already have an account? <span id="switchToLogin" style="color: #ff007f; cursor: pointer;">Login</span>`;
             document.getElementById('switchToLogin').onclick = switchToLogin;
         };
 
@@ -231,11 +261,13 @@
                         alert(`Welcome back, ${username}`);
                     } else {
                         alert('Invalid credentials');
+                        return;
                     }
                 }
             } else {
                 if (users.find(u => u.username === username)) {
                     alert('Username already exists');
+                    return;
                 } else {
                     users.push({ username, password });
                     alert('Sign-up successful. Please log in.');
